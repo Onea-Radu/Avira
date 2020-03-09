@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
                 products=new ArrayList<>();
                 for (DocumentSnapshot ds : queryDocumentSnapshots.getDocuments()) {
-                    products.add(new Product(ds.get("Name").toString(), Integer.parseInt(ds.get("Price").toString()), (String) ds.get("Img").toString()));
+                    products.add(new Product(ds.getId(),ds.get("Name").toString(), Integer.parseInt(ds.get("Price").toString()), ds.get("Img").toString()));
                 }
                 initUI();
             }

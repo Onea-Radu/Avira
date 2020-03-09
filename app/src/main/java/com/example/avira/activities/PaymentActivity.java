@@ -1,9 +1,11 @@
 package com.example.avira.activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.Image;
 import android.os.Bundle;
+import android.service.autofill.RegexValidator;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,6 +22,15 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.avira.R;
 import com.example.avira.data.Product;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PaymentActivity extends AppCompatActivity {
 
@@ -63,6 +74,26 @@ public class PaymentActivity extends AppCompatActivity {
         productPrice = product.getPrice();
         initUI();
     }
+
+    public void productBought()
+    {
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("Products").document(product.getId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+             int a=Integer.parseInt( documentSnapshot.get("Sold").toString())+1;
+
+
+                db.collection("Products").document(product.getId()).update("Sold", a);
+
+            }
+        });
+
+
+
+    }
+
     public void initUI()
     {
         productImageView = findViewById(R.id.paymentProductImage);
@@ -112,6 +143,18 @@ public class PaymentActivity extends AppCompatActivity {
         dollarBillsNr = new TextView[]{one_dollar_billNr, five_dollar_billNr, ten_dollar_billNr, twenty_dollar_billNr, fifty_dollar_billNr, one_hundred_dollar_billNr};
         billsValues = new int[]{1, 5, 10, 20, 50, 100};
         billsCount = new int[6];
+
+        payButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(cardDetailsEditText.getText().toString().matches("\\d{12}")){Toast.makeText(getApplicationContext(),"Tranzactie finalizata",Toast.LENGTH_LONG).show();
+                //productBought();
+                finish();}
+                else
+                    Toast.makeText(PaymentActivity.this,"Card invalid",Toast.LENGTH_LONG).show();
+            }
+        });
+
         for(ImageView imageView : dollarBills)
         {
             imageView.setOnClickListener(new View.OnClickListener() {
@@ -182,7 +225,10 @@ public class PaymentActivity extends AppCompatActivity {
         changeTextView.setVisibility(View.VISIBLE);
         changeTextView.setText(changeText);
         billsCount = new int[6];
+   // productBought();
     }
+
+
     public int getAmmountPaid(int[] billsValues, int[] billsCount)
     {
         int s = 0;
