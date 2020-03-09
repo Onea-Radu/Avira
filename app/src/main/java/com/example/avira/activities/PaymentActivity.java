@@ -75,7 +75,7 @@ public class PaymentActivity extends AppCompatActivity {
         initUI();
     }
 
-    public void productBought()
+    public void productBought()//for product statistics
     {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
