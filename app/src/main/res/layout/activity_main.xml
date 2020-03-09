@@ -3,12 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity">
+    android:orientation="vertical"
+    tools:context=".activities.MainActivity"
+    android:background="#ececec">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="32sp"
+        android:text="Avira vending machine"/>
     <GridView
         android:id="@+id/productGridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="100dp"
         android:gravity="center"
         android:columnWidth="120dp"
         android:numColumns="3"

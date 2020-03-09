@@ -2,7 +2,9 @@ package com.example.avira.data;
 
 import android.content.Intent;
 
-public class Product
+import java.io.Serializable;
+
+public class Product implements Serializable
 {
     private String name;
     private int price;

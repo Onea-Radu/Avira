@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Avira</string>
+    <string-array name="payment_methods">
+        <item>cash</item>
+        <item>card</item>
+    </string-array>
 </resources>
